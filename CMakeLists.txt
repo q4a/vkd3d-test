@@ -29,7 +29,7 @@ if (NOT WIN32)
     set(VKD3D_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/build/vkd3d-src")
     ExternalProject_Add(vkd3d
         GIT_REPOSITORY    https://gitlab.winehq.org/wine/vkd3d
-        GIT_TAG           vkd3d-1.17
+        GIT_TAG           06a503975f7808bcefff8bf2ca4e9605926e1ed9
         GIT_SHALLOW       ON
         BUILD_ALWAYS      OFF
         SOURCE_DIR        ${VKD3D_SOURCE_DIR}
