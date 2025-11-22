@@ -28,8 +28,8 @@ if (NOT WIN32)
     #list(APPEND VKD3D_CONFIG   "CFLAGS=-O3 -DNDEBUG -DVKD3D_NO_TRACE_MESSAGES")
     set(VKD3D_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/build/vkd3d-src")
     ExternalProject_Add(vkd3d
-        GIT_REPOSITORY    https://gitlab.winehq.org/wine/vkd3d
-        GIT_TAG           06a503975f7808bcefff8bf2ca4e9605926e1ed9
+        GIT_REPOSITORY    https://gitlab.winehq.org/wine/vkd3d.git
+        GIT_TAG           vkd3d-1.18
         GIT_SHALLOW       ON
         BUILD_ALWAYS      OFF
         SOURCE_DIR        ${VKD3D_SOURCE_DIR}
@@ -43,9 +43,8 @@ if (NOT WIN32)
     )
     set(DIRECTX_INCLUDE_DIRS "${VKD3D_SOURCE_DIR}/include")
     set(DIRECTX_LIBS
-        "${VKD3D_SOURCE_DIR}/.libs/libvkd3d.a"
-        "${VKD3D_SOURCE_DIR}/.libs/libvkd3d-shader.a"
         "${VKD3D_SOURCE_DIR}/.libs/libvkd3d-utils.a"
+        "${VKD3D_SOURCE_DIR}/.libs/libvkd3d-shader.a"
     )
     #target_link_options(${PROJECT_NAME} PRIVATE -v -flto)
     add_dependencies(${PROJECT_NAME} vkd3d)
