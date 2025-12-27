@@ -24,9 +24,17 @@ if (NOT WIN32)
     ProcessorCount(N)
     message("ProcessorCount = ${N}")
     set(VKD3D_CONFIG "./configure")
-    #list(APPEND VKD3D_CONFIG "CPPFLAGS=-O3 -DNDEBUG -DVKD3D_NO_TRACE_MESSAGES")
-    #list(APPEND VKD3D_CONFIG   "CFLAGS=-O3 -DNDEBUG -DVKD3D_NO_TRACE_MESSAGES")
+    list(APPEND VKD3D_CONFIG "CXX=clang++")
+    list(APPEND VKD3D_CONFIG  "CC=clang")
+    list(APPEND VKD3D_CONFIG "CPPFLAGS=-O3 -DNDEBUG -DVKD3D_NO_TRACE_MESSAGES -fno-lto")
+    list(APPEND VKD3D_CONFIG   "CFLAGS=-O3 -DNDEBUG -DVKD3D_NO_TRACE_MESSAGES -fno-lto")
     set(VKD3D_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/build/vkd3d-src")
+    set(DIRECTX_INCLUDE_DIRS "${VKD3D_SOURCE_DIR}/include")
+    set(DIRECTX_LIBS
+        "${VKD3D_SOURCE_DIR}/.libs/libvkd3d-utils.a"
+        "${VKD3D_SOURCE_DIR}/.libs/libvkd3d-shader.a"
+        "${VKD3D_SOURCE_DIR}/.libs/libvkd3d.a"
+    )
     ExternalProject_Add(vkd3d
         GIT_REPOSITORY    https://github.com/q4a/vkd3d
         GIT_TAG           dxvk
@@ -38,13 +46,8 @@ if (NOT WIN32)
         # result comman will be: ./configure "CPPFLAGS=-O3 -DNDEBUG -DVKD3D_NO_TRACE_MESSAGES" "CFLAGS=-O3 -DNDEBUG -DVKD3D_NO_TRACE_MESSAGES"
         CONFIGURE_COMMAND ./autogen.sh && ${CMAKE_COMMAND} -E env ${VKD3D_CONFIG}
         BUILD_COMMAND     make -j${N}
-        BUILD_BYPRODUCTS  ${VKD3D_SOURCE_DIR}/.libs/libvkd3d.a ${VKD3D_SOURCE_DIR}/.libs/libvkd3d-shader.a ${VKD3D_SOURCE_DIR}/.libs/libvkd3d-utils.a
+        BUILD_BYPRODUCTS  ${DIRECTX_LIBS}
         INSTALL_COMMAND   ""
-    )
-    set(DIRECTX_INCLUDE_DIRS "${VKD3D_SOURCE_DIR}/include")
-    set(DIRECTX_LIBS
-        "${VKD3D_SOURCE_DIR}/.libs/libvkd3d-utils.a"
-        "${VKD3D_SOURCE_DIR}/.libs/libvkd3d-shader.a"
     )
     #target_link_options(${PROJECT_NAME} PRIVATE -v -flto)
     add_dependencies(${PROJECT_NAME} vkd3d)
