@@ -49,7 +49,7 @@ if (NOT WIN32)
         BUILD_BYPRODUCTS  ${DIRECTX_LIBS}
         INSTALL_COMMAND   ""
     )
-    target_link_options(${PROJECT_NAME} PRIVATE -v -fno-lto)
+    #target_link_options(${PROJECT_NAME} PRIVATE -v -fno-lto)
     add_dependencies(${PROJECT_NAME} vkd3d)
 
     target_include_directories(${PROJECT_NAME} PRIVATE
